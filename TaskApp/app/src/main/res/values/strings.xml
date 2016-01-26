@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <string name="task_app">Task App</string>
+    <string name="ascii_splash">[• °]</string>
+    <string name="readingcash">Reading from cache.</string>
+
+    <string name="days_left">Days left</string>
+    <string name="status">Status</string>
+    <string name="task_description">Description</string>
+    <string name="task_title">Title</string>
+    <string name="task_priority">1</string>
+    <string name="date">Date</string>
+    <string name="due_date">Due Date</string>
+    <string name="resolve">Resolve</string>
+    <string name="cntresolve">Can\'t Resolve</string>
+    <string name="tasks">Tasks</string>
+    <string name="task_details">Task Details</string>
+</resources>
