@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import humanity.com.taskapp.Activity.Main.TaskItemView;
 import humanity.com.taskapp.Activity.TaskItem.OpenTaskDetailsJob;
 import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 import humanity.com.taskapp.R;
@@ -55,7 +54,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TaskItemView>
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items!=null?items.size():0;
     }
 
 }

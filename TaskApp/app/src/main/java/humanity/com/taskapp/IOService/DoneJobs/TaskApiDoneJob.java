@@ -1,6 +1,8 @@
 package humanity.com.taskapp.IOService.DoneJobs;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 
@@ -11,15 +13,15 @@ import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 public class TaskApiDoneJob extends GenericDoneJob {
 
     public boolean succes = false;
-    public List<TaskItemModel> taskItemModelList = null;
+    public Map<Date, List<TaskItemModel>> groupedTasks = null;
 
     public boolean reloaded = true;
 
-    public TaskApiDoneJob(boolean succes, List<TaskItemModel> taskItemModelList, boolean reloaded)
+    public TaskApiDoneJob(boolean succes, Map<Date, List<TaskItemModel>> groupedTasks, boolean reloaded)
     {
         this.succes = succes;
         this.reloaded = reloaded;
-        if(taskItemModelList != null)
-            this.taskItemModelList = taskItemModelList;
+        if(groupedTasks != null)
+            this.groupedTasks = groupedTasks;
     }
 }

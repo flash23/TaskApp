@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import de.greenrobot.event.EventBus;
 import humanity.com.taskapp.IOService.API.CancelableCallback;
+import humanity.com.taskapp.IOService.DoneJobs.PopulateTaskPagerWithFragmentsJob;
+import humanity.com.taskapp.IOService.DoneJobs.TaskApiDoneJob;
 import humanity.com.taskapp.IOService.JOBS.TaskApiJob;
 import humanity.com.taskapp.R;
 
@@ -25,7 +27,7 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         setupUI();
     }
@@ -41,6 +43,7 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(mCustomPagerAdapter);
         super.onStop();
     }
 
@@ -57,17 +60,17 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void populateUI(boolean reload)
     {
-        //recyclerViewAdapter.fetchItems(reload);
+
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-           // recyclerViewAdapter.notifyDataSetChanged();
-        }
+//        // Checks the orientation of the screen
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//           // recyclerViewAdapter.notifyDataSetChanged();
+//        }
     }
 
     @Override
@@ -77,17 +80,20 @@ public class TaskListActivity extends AppCompatActivity {
 
     public void fetchTasks(boolean reload)
     {
-        //TODO: send event to fire up refreshers
-//        context.refresher.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                context.refresher.setRefreshing(true);
-//            }
-//        });
-
         CancelableCallback.cancelAll();
 
         EventBus.getDefault().post(new TaskApiJob(reload));
+    }
+
+
+    public void onEventBackgroundThread(TaskApiDoneJob event)
+    {
+        if(event.succes && event.groupedTasks!=null) {
+
+            EventBus.getDefault().postSticky(new PopulateTaskPagerWithFragmentsJob(event));
+        }
+        EventBus.getDefault().removeStickyEvent(event);
+
     }
 
 }

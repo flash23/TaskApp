@@ -1,6 +1,6 @@
 package humanity.com.taskapp.Activity.Main.Fragment;
 
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,9 +13,13 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.util.Date;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
-import humanity.com.taskapp.IOService.DoneJobs.TaskApiDoneJob;
+import humanity.com.taskapp.IOService.DoneJobs.PopulateTaskFragmentsJob;
 import humanity.com.taskapp.IOService.JOBS.TaskApiJob;
+import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 import humanity.com.taskapp.R;
 
 /**
@@ -30,6 +34,23 @@ public class TasksFragment extends Fragment {
     private CheckBox instockCheckBox;
     private TasksRecyclerViewAdapter recyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    private Date presentingDate = new Date();
+
+
+    public TasksFragment() {
+        super();
+
+//        if(!EventBus.getDefault().isRegistered(this))
+//            EventBus.getDefault().registerSticky(this);
+    }
+
+    @SuppressLint("ValidFragment")
+    public TasksFragment(Date presentingDate) {
+        super();
+
+        this.presentingDate = presentingDate;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -72,7 +93,7 @@ public class TasksFragment extends Fragment {
 
     @Override
     public void onStop() {
-        //EventBus.getDefault().unregister(this);
+       // EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -80,49 +101,32 @@ public class TasksFragment extends Fragment {
     @Override
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
-        if (visible) {
+        if (visible && getView()!=null) {
             if(!EventBus.getDefault().isRegistered(this))
                 EventBus.getDefault().registerSticky(this);
         }
         else
-            EventBus.getDefault().unregister(this);
+            if(EventBus.getDefault().isRegistered(this))
+                EventBus.getDefault().unregister(this);
     }
 
-    int itemLoading = -1;
-    public void onEventBackgroundThread(TaskApiDoneJob event)
+    public void onEventBackgroundThread(PopulateTaskFragmentsJob event)
     {
         if(event.succes) {
-            if(event.reloaded) {
-                //context.previousTotal = 0;
-                if(recyclerViewAdapter.items.size()>0)
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            recyclerView.scrollToPosition(0);
-                        }
-                    });
-                recyclerViewAdapter.items = event.taskItemModelList;
-
-            } else
-                recyclerViewAdapter.items.addAll(event.taskItemModelList);
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerViewAdapter.notifyDataSetChanged();
-
-                }
-            });
-        }
-
+            if (presentingDate != null && event.groupedTasks != null) {
+                if (event.groupedTasks.get(presentingDate) != null && recyclerViewAdapter != null)
+                    recyclerViewAdapter.items = (List<TaskItemModel>) event.groupedTasks.get(presentingDate);
+            }
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                recyclerViewAdapter.notifyDataSetChanged();
                 refresher.setRefreshing(false);
-
             }
-        });
+            });
+        }
+
 
         //We kill all the spinners
         EventBus.getDefault().removeStickyEvent(ControlSpinnersEvent.class);

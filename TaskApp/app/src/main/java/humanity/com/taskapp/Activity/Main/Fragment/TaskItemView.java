@@ -1,4 +1,4 @@
-package humanity.com.taskapp.Activity.Main;
+package humanity.com.taskapp.Activity.Main.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
