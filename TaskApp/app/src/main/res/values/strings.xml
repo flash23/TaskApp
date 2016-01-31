@@ -15,4 +15,7 @@
     <string name="cntresolve">Can\'t Resolve</string>
     <string name="tasks">Tasks</string>
     <string name="task_details">Task Details</string>
+    <string name="empty_tasks_message">No tasks for today!</string>
+    <string name="unresolved">Unresolved</string>
+    <string name="resolved">Resolved</string>
 </resources>

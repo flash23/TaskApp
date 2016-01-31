@@ -7,12 +7,16 @@ import android.os.IBinder;
 import java.util.ArrayList;
 import java.util.List;
 
-import humanity.com.taskapp.Activity.Main.Fragment.ControlSpinnersEvent;
+import de.greenrobot.event.EventBus;
+import humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment.ControlSpinnersEvent;
 import humanity.com.taskapp.IOService.DOJOBS.GenericDoJob;
+import humanity.com.taskapp.IOService.DOJOBS.OpenTaskStatusDoJob;
+import humanity.com.taskapp.IOService.DOJOBS.SaveTaskStatusDoJob;
 import humanity.com.taskapp.IOService.DOJOBS.TaskApiDoJob;
 import humanity.com.taskapp.IOService.DoneJobs.ServiceStarted;
+import humanity.com.taskapp.IOService.JOBS.OpenTaskStatusJob;
+import humanity.com.taskapp.IOService.JOBS.SaveTaskStatusJob;
 import humanity.com.taskapp.IOService.JOBS.TaskApiJob;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by mirkomesner on 01/25/16.
@@ -118,6 +122,22 @@ public class InOutService extends Service {
             jobs.add(new TaskApiDoJob(taskJob));
 
             EventBus.getDefault().postSticky(new ControlSpinnersEvent(true));
+        }
+        runJobs();
+    }
+
+    public void onEvent(SaveTaskStatusJob event){
+        synchronized (monitorWrite) {
+            SaveTaskStatusJob taskJob =  event;
+            jobs.add(new SaveTaskStatusDoJob(getApplicationContext(), taskJob));
+        }
+        runJobs();
+    }
+
+    public void onEvent(OpenTaskStatusJob event){
+        synchronized (monitorWrite) {
+            OpenTaskStatusJob taskJob =  event;
+            jobs.add(new OpenTaskStatusDoJob(getApplicationContext(), taskJob));
         }
         runJobs();
     }

@@ -1,7 +1,5 @@
 package humanity.com.taskapp.IOService.DOJOBS;
 
-import android.app.Activity;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +26,6 @@ import retrofit.client.Response;
  */
 public class TaskApiDoJob implements GenericDoJob {
     TaskApiJob taskJob;
-    Activity context;
 
     public static String TAG = "TASKAPI";
 

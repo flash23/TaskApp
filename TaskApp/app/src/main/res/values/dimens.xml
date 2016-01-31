@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">10dp</dimen>
     <dimen name="task_listitem_minheight">80dp</dimen>
     <dimen name="button_radius">3pt</dimen>
+    <dimen name="resolved_details_margin">65dp</dimen>
 </resources>

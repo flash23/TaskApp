@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import humanity.com.taskapp.Activity.TaskItem.TaskItemDetailsActivity;
-import humanity.com.taskapp.Activity.TaskItem.OpenTaskDetailsJob;
+import humanity.com.taskapp.Activity.TaskItemDetails.TaskItemDetailsActivity;
+import humanity.com.taskapp.Activity.TaskItemDetails.OpenTaskDetailsJob;
 import humanity.com.taskapp.Activity.Main.TaskListActivity;
 import humanity.com.taskapp.Activity.Splash.CloseSplashEvent;
 import humanity.com.taskapp.Activity.Splash.SplashActivity;

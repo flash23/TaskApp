@@ -13,7 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 import de.greenrobot.event.EventBus;
-import humanity.com.taskapp.Activity.Main.Fragment.TasksFragment;
+import humanity.com.taskapp.Activity.Main.Fragment.EmptyFragment.EmptyFragment;
+import humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment.ControlSpinnersEvent;
+import humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment.TasksFragment;
 import humanity.com.taskapp.IOService.DoneJobs.PopulateTaskFragmentsJob;
 import humanity.com.taskapp.IOService.DoneJobs.PopulateTaskPagerWithFragmentsJob;
 import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
@@ -74,14 +76,15 @@ class TaskPagerAdapter extends FragmentPagerAdapter {
 
         Fragment fragment;
         if(groupedTasks != null) {
-        //    Object []tasksG =  groupedTasks.values().toArray();
-        //    List<TaskItemModel> tasks = (List<TaskItemModel>)tasksG[position];
 
             Calendar c = Calendar.getInstance();
             c.setTime(timeFrame.startDate);
             c.add(Calendar.DATE, position);
 
-            fragment = new TasksFragment(c.getTime());
+            if(groupedTasks.containsKey(c.getTime()))
+                fragment = new TasksFragment(c.getTime());
+            else
+                fragment = new EmptyFragment();
         }
         else
         {
@@ -156,6 +159,9 @@ class TaskPagerAdapter extends FragmentPagerAdapter {
 
             EventBus.getDefault().postSticky(new PopulateTaskFragmentsJob(event));
             EventBus.getDefault().removeStickyEvent(event);
+
+            EventBus.getDefault().removeStickyEvent(ControlSpinnersEvent.class);
+            EventBus.getDefault().postSticky(new ControlSpinnersEvent(false));
         }
     }
 

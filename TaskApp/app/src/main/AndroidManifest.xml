@@ -24,7 +24,7 @@
         <activity android:name=".Activity.Main.TaskListActivity"
         android:configChanges="orientation|screenSize|keyboardHidden"/>
 
-        <activity android:name=".Activity.TaskItem.TaskItemDetailsActivity"
+        <activity android:name=".Activity.TaskItemDetails.TaskItemDetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
 

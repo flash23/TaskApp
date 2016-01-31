@@ -1,4 +1,4 @@
-package humanity.com.taskapp.Activity.Main.Fragment;
+package humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -37,12 +37,8 @@ public class TasksFragment extends Fragment {
 
     private Date presentingDate = new Date();
 
-
     public TasksFragment() {
         super();
-
-//        if(!EventBus.getDefault().isRegistered(this))
-//            EventBus.getDefault().registerSticky(this);
     }
 
     @SuppressLint("ValidFragment")
@@ -76,7 +72,7 @@ public class TasksFragment extends Fragment {
         });
 
         recyclerView=(RecyclerView) root.findViewById(R.id.taskrecyclerview);
-        recyclerViewAdapter=new TasksRecyclerViewAdapter(this);
+        recyclerViewAdapter=new TasksRecyclerViewAdapter(getActivity());
         recyclerView.setAdapter(recyclerViewAdapter);
 
         recyclerView.setHasFixedSize(true);
@@ -89,11 +85,14 @@ public class TasksFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().registerSticky(this);
     }
 
     @Override
     public void onStop() {
-       // EventBus.getDefault().unregister(this);
+        if(EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -126,11 +125,6 @@ public class TasksFragment extends Fragment {
             }
             });
         }
-
-
-        //We kill all the spinners
-        EventBus.getDefault().removeStickyEvent(ControlSpinnersEvent.class);
-
     }
 
     public void onEventBackgroundThread(ControlSpinnersEvent event)

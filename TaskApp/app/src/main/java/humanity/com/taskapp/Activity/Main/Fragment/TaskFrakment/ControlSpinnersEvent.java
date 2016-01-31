@@ -1,4 +1,4 @@
-package humanity.com.taskapp.Activity.Main.Fragment;
+package humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment;
 
 /**
  * Created by mirkomesner on 1/26/16.

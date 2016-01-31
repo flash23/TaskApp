@@ -35,15 +35,22 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ///TODO
 
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(mCustomPagerAdapter))
+            EventBus.getDefault().register(mCustomPagerAdapter);
+
+        //if(mCustomPagerAdapter.ite)
         fetchTasks(true);
     }
 
     @Override
     protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        EventBus.getDefault().unregister(mCustomPagerAdapter);
+        if(EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+        if(EventBus.getDefault().isRegistered(mCustomPagerAdapter))
+            EventBus.getDefault().unregister(mCustomPagerAdapter);
         super.onStop();
     }
 

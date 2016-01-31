@@ -1,15 +1,18 @@
-package humanity.com.taskapp.Activity.Main.Fragment;
+package humanity.com.taskapp.Activity.Main.Fragment.TaskFrakment;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import humanity.com.taskapp.Activity.TaskItem.OpenTaskDetailsJob;
+import humanity.com.taskapp.Activity.TaskItemDetails.OpenTaskDetailsJob;
+import humanity.com.taskapp.IOService.JOBS.OpenTaskStatusJob;
 import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 import humanity.com.taskapp.R;
 
@@ -19,13 +22,11 @@ import humanity.com.taskapp.R;
 public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TaskItemView> {
 
     public List<TaskItemModel> items;
+    private Activity context;
 
-    TasksFragment context;
-
-    public TasksRecyclerViewAdapter(TasksFragment context)
+    public TasksRecyclerViewAdapter(Activity context)
     {
         this.context = context;
-
         items = new ArrayList<TaskItemModel>();
     }
 
@@ -48,8 +49,15 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TaskItemView>
         holder.taskTitle.setText(items.get(position).title);
         holder.taskPriorty.setText(items.get(position).Priority + "");
         holder.taskDueDate.setText(items.get(position).DueDate);
-        holder.taskDaysLeft.setText(items.get(position).TargetDate);
 
+        int dleft = (int)Math.max(0, Math.round((items.get(position).DueDateDate.getTime() - new Date().getTime() ) / (double) 86400000));
+
+        holder.taskDaysLeft.setText(dleft + "");
+
+        holder.context = context;
+        holder.taskID = items.get(position).id;
+
+        EventBus.getDefault().post(new OpenTaskStatusJob(holder.taskID));
     }
 
     @Override

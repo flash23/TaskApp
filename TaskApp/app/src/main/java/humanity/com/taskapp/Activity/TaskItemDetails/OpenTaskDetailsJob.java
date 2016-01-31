@@ -1,4 +1,4 @@
-package humanity.com.taskapp.Activity.TaskItem;
+package humanity.com.taskapp.Activity.TaskItemDetails;
 
 import humanity.com.taskapp.IOService.JOBS.GenericJob;
 import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
