@@ -41,8 +41,8 @@ public class TaskListActivity extends AppCompatActivity {
         if(!EventBus.getDefault().isRegistered(mCustomPagerAdapter))
             EventBus.getDefault().register(mCustomPagerAdapter);
 
-        //if(mCustomPagerAdapter.ite)
-        fetchTasks(true);
+        if(mCustomPagerAdapter.groupedTasks == null)
+            fetchTasks(true);
     }
 
     @Override

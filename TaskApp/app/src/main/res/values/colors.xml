@@ -11,4 +11,6 @@
     <color name="taskGreen">#13897b</color>
     <color name="taskBlue">#DCF5F3</color>
     <color name="taskOrange">#fbae54</color>
+
+    <color name="taskGreyAlpha">#DDF6EFDE</color>
 </resources>

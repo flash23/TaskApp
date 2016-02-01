@@ -26,7 +26,7 @@ import humanity.com.taskapp.IOService.MODEL.TaskItemModel;
 class TaskPagerAdapter extends FragmentPagerAdapter {
 
     TaskListActivity mContext;
-    Map<Date, List<TaskItemModel>> groupedTasks = null;
+    public Map<Date, List<TaskItemModel>> groupedTasks = null;
 
     TimeFrame timeFrame;
 
@@ -129,7 +129,6 @@ class TaskPagerAdapter extends FragmentPagerAdapter {
     public void scrollToday()
     {
         mContext.mViewPager.setCurrentItem((int)timeFrame.getDaysToday()-1, false);
-
     }
 
     public void onEventBackgroundThread(PopulateTaskPagerWithFragmentsJob event)
@@ -153,7 +152,8 @@ class TaskPagerAdapter extends FragmentPagerAdapter {
                 public void run() {
                     groupedTasks = fevent.groupedTasks;
                     notifyDataSetChanged();
-                    scrollToday();
+                    if(mContext.mViewPager.getCurrentItem()<1)
+                        scrollToday();
                 }
             });
 

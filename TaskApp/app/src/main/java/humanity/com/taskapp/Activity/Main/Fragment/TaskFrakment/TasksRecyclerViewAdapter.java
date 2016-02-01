@@ -38,7 +38,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TaskItemView>
             public void onClick(View v, int position) {
                 TaskItemModel item = items.get(position);
                 EventBus.getDefault().post(new OpenTaskDetailsJob(item));
-            };
+            }
         });
 
         return rcv;

@@ -55,6 +55,37 @@ public class Api {
             okHttpClient.setCache(cache);
         }
 
+        //Somethings wrong with certificate using http insted for now
+//        try {
+//            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+//            InputStream cert = context.getResources().openRawResource(R.raw.taskapp_cert);
+//            java.security.cert.Certificate ca;
+//            try {
+//                ca = cf.generateCertificate(cert);
+//            } finally {
+//                cert.close();
+//            }
+//
+//             // creating a KeyStore containing our trusted CAs
+//            String keyStoreType = KeyStore.getDefaultType();
+//            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+//            keyStore.load(null, null);
+//            keyStore.setCertificateEntry("ca", ca);
+//
+//            // creating a TrustManager that trusts the CAs in our KeyStore
+//            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+//            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+//            tmf.init(keyStore);
+//
+//            // creating an SSLSocketFactory that uses our TrustManager
+//            SSLContext sslContext = SSLContext.getInstance("TLS");
+//            sslContext.init(null, tmf.getTrustManagers(), null);
+//            okHttpClient.setSslSocketFactory(sslContext.getSocketFactory());
+//        } catch (Exception e) {
+//            Log.e("OKHttp", "Could not create http cache", e);
+//        }
+
+
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestInterceptor.RequestFacade request) {
